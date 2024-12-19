@@ -110,7 +110,7 @@ endmodule
 // Provide a wrapper module to debounce input signals if requested.
 m5_if(m5_debounce_inputs, ['m5_tt_top(m5_my_design)'])
 \SV
-	module washingMachine (pour, spin, drain, heat, s, temp_hot, h, c_full, c_emp, t, clk);
+   module washingMachine (pour, spin, drain, heat, s, temp_hot, h, c_full, c_emp, t, clk);
    output reg pour, spin, drain, heat;
    input s, temp_hot, h, c_full, c_emp, t, clk;
    parameter [2:0] Init = 3'b000, Wait = 3'b001, Heat = 3'b010, Pour = 3'b011, Spin = 3'b100, Drain = 3'b101, Pause = 3'b110;
