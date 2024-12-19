@@ -121,7 +121,7 @@ m5_if(m5_debounce_inputs, ['m5_tt_top(m5_my_design)'])
       begin
          currentState <= nextState;
       end   
-   always_comb  // @(currentState, s, h, c_full, c_emp)
+   always@(currentState, s, h, c_full, c_emp)
       begin 
          case (currentState)
          Init: nextState = Wait;
@@ -174,7 +174,7 @@ m5_if(m5_debounce_inputs, ['m5_tt_top(m5_my_design)'])
          default: nextState = Init;
          endcase
       end
-   always_comb  //@ (currentState)
+   always@ (currentState)
       begin
          case(currentState)
             Init: a=0;
