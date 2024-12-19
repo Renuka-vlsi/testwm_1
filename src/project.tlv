@@ -135,7 +135,7 @@ m5_if(m5_debounce_inputs, ['m5_tt_top(m5_my_design)'])
                      nextState = Pour;
                   end
                else 
-                  nextState = Wait;	
+                  nextState = Wait;
             end
          Heat: 
             begin 
@@ -252,7 +252,3 @@ m5_if(m5_debounce_inputs, ['m5_tt_top(m5_my_design)'])
    washingMachine washingMachine(.*);
    
 endmodule
-
-
-	
-
