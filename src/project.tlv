@@ -110,7 +110,7 @@ endmodule
 // Provide a wrapper module to debounce input signals if requested.
 m5_if(m5_debounce_inputs, ['m5_tt_top(m5_my_design)'])
 \SV
-   module washingMachine (pour, spin, drain, heat, s, temp_hot, h, c_full, c_emp, t, clk);
+	module washingMachine (pour, spin, drain, heat, s, temp_hot, h, c_full, c_emp, t, clk);
    output reg pour, spin, drain, heat;
    input s, temp_hot, h, c_full, c_emp, t, clk;
    parameter [2:0] Init = 3'b000, Wait = 3'b001, Heat = 3'b010, Pour = 3'b011, Spin = 3'b100, Drain = 3'b101, Pause = 3'b110;
@@ -135,7 +135,7 @@ m5_if(m5_debounce_inputs, ['m5_tt_top(m5_my_design)'])
                      nextState = Pour;
                   end
                else 
-                  nextState = Wait;
+                  nextState = Wait;	
             end
          Heat: 
             begin 
@@ -174,40 +174,40 @@ m5_if(m5_debounce_inputs, ['m5_tt_top(m5_my_design)'])
          default: nextState = Init;
          endcase
       end
-   always@ (currentState)
+   always_ff @(posedge clk)
       begin
          case(currentState)
-            Init: a=0;
+            Init: a<=0;
             Heat: 
                begin
-                  heat=1;
-                  pour=0;
-                  spin=0;
-                  drain=0;
+                  heat<=1;
+                  pour<=0;
+                  spin<=0;
+                  drain<=0;
                end
             Pour: 
                begin
-                  pour=1;
-                  heat=0;
-                  spin=0;
-                  drain=0;
+                  pour<=1;
+                  heat<=0;
+                  spin<=0;
+                  drain<=0;
                end
             Spin: 
                begin
-                  spin=1;
-                  a=a+1;
-                  heat=0;
-                  pour=0;
-                  drain=0;
+                  spin<=1;
+                  a<=a+1;
+                  heat<=0;
+                  pour<=0;
+                  drain<=0;
                end
             Drain: 
                begin
-                  drain=1;
-                  heat=0;
-                  pour=0;
-                  spin=0;
+                  drain<=1;
+                  heat<=0;
+                  pour<=0;
+                  spin<=0;
                end
-            default: a=0;
+            default: a<=0;
          endcase
       end
    endmodule
@@ -217,7 +217,7 @@ m5_if(m5_debounce_inputs, ['m5_tt_top(m5_my_design)'])
 // The Tiny Tapeout module
 // =======================
 
-    module m5_user_module_name (
+module m5_user_module_name (
     input  wire [7:0] ui_in,    // Dedicated inputs - connected to the input switches
     output wire [7:0] uo_out,   // Dedicated outputs - connected to the 7 segment display
     m5_if_eq(m5_target, FPGA, ['/']['*'])   // The FPGA is based on TinyTapeout 3 which has no bidirectional I/Os (vs. TT6 for the ASIC).
@@ -245,7 +245,7 @@ m5_if(m5_debounce_inputs, ['m5_tt_top(m5_my_design)'])
    // your Verilog logic goes here.
    // Note, output assignments are in my_design.
    // ==========================================
-   reg pour, spin, drain, heat;
+	reg pour, spin, drain, heat;
    wire s = ui_in[0], temp_hot = ui_in[1], h = ui_in[2], c_full = ui_in[4], c_emp = ui_in[5], t = ui_in[3];
    //wire heat = uo_out[0], pour = uo_out[1], spin = uo_out[2], drain = uo_out[3];
    assign uo_out = {4'b0, heat, pour, spin, drain}; 
