@@ -119,62 +119,62 @@ m5_if(m5_debounce_inputs, ['m5_tt_top(m5_my_design)'])
    always @(posedge clk)
    //always@(currentState)
       begin
-         currentState = nextState;
+         currentState <= nextState;
       end   
-   always @(currentState, s, h, c_full, c_emp)
+   always_comb  // @(currentState, s, h, c_full, c_emp)
       begin 
          case (currentState)
-         Init: nextState <= Wait;
+         Init: nextState = Wait;
          Wait:
             begin
                if (s)
                   begin
                   if (temp_hot)
-                     nextState <= Heat;
+                     nextState = Heat;
                   else
-                     nextState <= Pour;
+                     nextState = Pour;
                   end
                else 
-                  nextState <= Wait;	
+                  nextState = Wait;	
             end
          Heat: 
             begin 
                if (h)
-                  nextState <= Pour;
+                  nextState = Pour;
                else
-                  nextState <= Heat;
+                  nextState = Heat;
             end
          Pour:
             begin
                if (c_full)
-                  nextState <= Spin;
+                  nextState = Spin;
                else
-                  nextState <= Pour;
+                  nextState = Pour;
             end
          Spin:
             begin
                if (t)
-                  nextState <= Drain;
+                  nextState = Drain;
                else 
-                  nextState <= Spin;
+                  nextState = Spin;
             end
          Drain:
             begin
                if (c_emp)
                   begin 
                      case(a)
-                        2'b01: nextState <= Pour;
-                        2'b10: nextState <= Spin;
-                        default: nextState <= Init;
+                        2'b01: nextState = Pour;
+                        2'b10: nextState = Spin;
+                        default: nextState = Init;
                      endcase
                   end
                else 
-                  nextState <= Drain;
+                  nextState = Drain;
             end
-         default: nextState <= Init;
+         default: nextState = Init;
          endcase
       end
-   always@ (currentState)
+   always_comb  //@ (currentState)
       begin
          case(currentState)
             Init: a=0;
