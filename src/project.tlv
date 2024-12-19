@@ -217,7 +217,7 @@ m5_if(m5_debounce_inputs, ['m5_tt_top(m5_my_design)'])
 // The Tiny Tapeout module
 // =======================
 
-module m5_user_module_name (
+    module m5_user_module_name (
     input  wire [7:0] ui_in,    // Dedicated inputs - connected to the input switches
     output wire [7:0] uo_out,   // Dedicated outputs - connected to the 7 segment display
     m5_if_eq(m5_target, FPGA, ['/']['*'])   // The FPGA is based on TinyTapeout 3 which has no bidirectional I/Os (vs. TT6 for the ASIC).
@@ -245,7 +245,7 @@ module m5_user_module_name (
    // your Verilog logic goes here.
    // Note, output assignments are in my_design.
    // ==========================================
-	reg pour, spin, drain, heat;
+   reg pour, spin, drain, heat;
    wire s = ui_in[0], temp_hot = ui_in[1], h = ui_in[2], c_full = ui_in[4], c_emp = ui_in[5], t = ui_in[3];
    //wire heat = uo_out[0], pour = uo_out[1], spin = uo_out[2], drain = uo_out[3];
    assign uo_out = {4'b0, heat, pour, spin, drain}; 
